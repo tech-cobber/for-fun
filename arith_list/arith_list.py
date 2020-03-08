@@ -3,7 +3,7 @@ class ArithList(list):
      and comparators from list"""
 
     def make_equal(self, term: list) -> None:
-        diff = super().__len__() - len(term)
+        diff = self.__len__() - len(term)
         if not diff:
             return None
         elif (diff < 0):
@@ -13,6 +13,13 @@ class ArithList(list):
         else:
             term.extend(
                 [0 for _ in range(diff)]
+            )
+
+    def sum(self):
+        return sum(
+            self.__getitem__(
+                slice(self.__len__())
+                )
             )
 
     def __add__(self, term: list) -> list:
@@ -30,3 +37,21 @@ class ArithList(list):
             for idx in range(len(term))
         ]
         return result
+
+    def __lt__(self, term: list) -> bool:
+        return self.sum() < sum(term)
+
+    def __le__(self, term: list) -> bool:
+        return self.sum() <= sum(term)
+
+    def __eq__(self, term: list) -> bool:
+        return self.sum() == sum(term)
+
+    def __ne__(self, term: list) -> bool:
+        return self.sum() != sum(term)
+
+    def __gt__(self, term: list) -> bool:
+        return self.sum() > sum(term)
+
+    def __ge__(self, term: list) -> bool:
+        return self.sum() >= sum(term)
