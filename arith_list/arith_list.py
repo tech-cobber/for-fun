@@ -1,19 +1,31 @@
+from typing import Tuple
+
+
 class ArithList(list):
     """ This class overrides some arithmetic methods
      and comparators from list"""
 
-    def make_equal(self, term: list) -> None:
+    def make_equal(self, term: list) -> Tuple[bool, list]:
+        """ True means extended self and False stands for term"""
         diff = self.__len__() - len(term)
         if not diff:
-            return None
+            extended = term.copy()
+            return False, extended
         elif (diff < 0):
-            super().extend(
+            extended = self.__getitem__(
+                slice(self.__len__())
+                )
+            extended.extend(
                 [0 for _ in range(abs(diff))]
             )
+            return True, extended
         else:
-            term.extend(
+            extended = term.copy()
+            extended.extend(
                 [0 for _ in range(diff)]
             )
+            print(extended)
+            return False, extended
 
     def sum(self):
         return sum(
@@ -23,19 +35,25 @@ class ArithList(list):
             )
 
     def __add__(self, term: list) -> list:
-        self.make_equal(term)
-        result = [
-            super(ArithList, self).__getitem__(idx) + term[idx]
-            for idx in range(len(term))
-        ]
+        self_extended, extended = self.make_equal(term)
+        if self_extended:
+            result = list(map(lambda a, b: a + b, term, extended))
+        else:
+            result = [
+                self.__getitem__(idx) + extended[idx]
+                for idx in range(len(extended))
+            ]
         return result
 
     def __sub__(self, term: list) -> list:
-        self.make_equal(term)
-        result = [
-            super(ArithList, self).__getitem__(idx) - term[idx]
-            for idx in range(len(term))
-        ]
+        self_extended, extended = self.make_equal(term)
+        if self_extended:
+            result = list(map(lambda a, b: a - b, term, extended))
+        else:
+            result = [
+                self.__getitem__(idx) - extended[idx]
+                for idx in range(len(extended))
+            ]
         return result
 
     def __lt__(self, term: list) -> bool:

@@ -12,5 +12,6 @@ def run():
 ==: {left_term == right_term}\n\
 !=: {left_term != right_term}\n\
 >=: {left_term >= right_term}\n\
-<=: {left_term <= right_term}\n"
+<=: {left_term <= right_term}\n\
+\nleft_after: {left_term}\nright_after: {right_term}\n\n"
     print(test)
