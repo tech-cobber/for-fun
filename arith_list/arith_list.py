@@ -27,7 +27,7 @@ class ArithList(list):
             print(extended)
             return False, extended
 
-    def sum(self):
+    def sum(self) -> int:
         return sum(
             self.__getitem__(
                 slice(self.__len__())
@@ -37,7 +37,7 @@ class ArithList(list):
     def __add__(self, term: list) -> list:
         self_extended, extended = self.make_equal(term)
         if self_extended:
-            result = list(map(lambda a, b: a + b, term, extended))
+            result = list(map(lambda a, b: a + b, extended, term))
         else:
             result = [
                 self.__getitem__(idx) + extended[idx]
@@ -48,7 +48,7 @@ class ArithList(list):
     def __sub__(self, term: list) -> list:
         self_extended, extended = self.make_equal(term)
         if self_extended:
-            result = list(map(lambda a, b: a - b, term, extended))
+            result = list(map(lambda a, b: a - b, extended, term))
         else:
             result = [
                 self.__getitem__(idx) - extended[idx]
