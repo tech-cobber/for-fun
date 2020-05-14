@@ -1,9 +1,12 @@
 from loguru import logger
 from typing import List
+import cProfile
+import pstats
+import io
 
 
 def logging(func):
-
+    ''' Decorator for logging '''
     def wrapper(*args, **kwargs) -> List[int]:
         if func.__name__ == 'func':
             data, element = args
@@ -29,4 +32,19 @@ def logging(func):
             logger.info(f'Finished processing {func.__name__} with result: {result}')
             return result
 
+    return wrapper
+
+
+def profile(func):
+    """Decorator for profiling"""
+    def wrapper(*args, **kwargs):
+        filename = f'control/prof/{func.__name__}'
+        profiler = cProfile.Profile()
+        result = profiler.runcall(func, *args, **kwargs)
+        text_io = io.StringIO()
+        stats = pstats.Stats(profiler, stream=text_io).sort_stats('tottime')
+        stats.print_stats()
+        with open(filename, 'w+') as f:
+            f.write(text_io.getvalue())
+        return result
     return wrapper

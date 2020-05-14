@@ -1,5 +1,6 @@
 import unittest
-from .app import multiply, multiply_short
+from .app import multiply, multiply_short, mocking
+from unittest.mock import patch
 
 
 class TestMultiply(unittest.TestCase):
@@ -19,6 +20,11 @@ class TestMultiply(unittest.TestCase):
     def test_type(self):
         with self.assertRaises(ValueError):
             multiply('error')
+
+    @patch('control.app.multiply', return_value=[i for i in range(10_000_000)])
+    def test_large(self, input):
+        self.assertListEqual(mocking(),
+                             [i for i in range(10_000_000)])
 
 
 if __name__ == '__main__':

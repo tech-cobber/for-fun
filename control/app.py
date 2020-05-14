@@ -1,8 +1,9 @@
 from typing import List
 from functools import reduce
-from .utils import logging
+from .utils import logging, profile
 
 
+@profile
 @logging
 def multiply_short(data: List[int]) -> List[int]:
     if data:
@@ -17,6 +18,7 @@ def multiply_short(data: List[int]) -> List[int]:
     return result
 
 
+@profile
 @logging
 def multiply(data: List[int]) -> List[int]:
 
@@ -32,3 +34,8 @@ def multiply(data: List[int]) -> List[int]:
     for element in data:
         result.append(func(data, element))
     return result
+
+
+def mocking():
+    ''' For mocking use only '''
+    return multiply([i for i in range(10_000_000)])
