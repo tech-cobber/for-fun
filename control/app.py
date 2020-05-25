@@ -36,6 +36,22 @@ def multiply(data: List[int]) -> List[int]:
     return result
 
 
+@logging
+def multiply_linear_time(data: List[int]) -> List[int]:
+    if 0 in data:
+        raise ValueError("There is zero in the array! x * 0 is 0 you know?")
+    result = []
+    left = 1
+    for i in range(len(data)):
+        result.append(left)
+        left = left * data[i]
+    right = 1
+    for i in range(len(data) - 1, -1, -1):
+        result[i] = right * result[i]
+        right = right * data[i]
+    return result
+
+
 def mocking():
     ''' For mocking use only '''
     return multiply([i for i in range(10_000_000)])
