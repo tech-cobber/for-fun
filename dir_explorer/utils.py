@@ -26,12 +26,15 @@ def genetate_0_1(size: int = 10):
         f.write('\n'.join(text))
 
 
-def count_ones(filename: str = 'static/ones_zeros'):
+def count_zeros(filename: str = 'static/ones_zeros'):
     with open('static/ones_zeros', 'r') as f:
         text = f.read()
     counter = Counter(text)
-    ones = counter['1']
-    print(f"There are {ones} free places at the time")
+    zeros = counter.get('0')
+    if zeros:
+        print(f"There are {zeros} free places at the time")
+    else:
+        print(f"All the places are occupied")
 
 
 def is_free(row: int, col: int,
@@ -48,5 +51,5 @@ def is_free(row: int, col: int,
 if __name__ == "__main__":
     # count_pages_pdf()
     genetate_0_1()
-    count_ones()
+    count_zeros()
     is_free(10, 10)
